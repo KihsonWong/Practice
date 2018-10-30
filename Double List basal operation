@@ -33,13 +33,13 @@ Node* CreatDoubleList()
 		lst->next = index;
 		index->last = lst;
 		lst = lst->next;
+		index->next = NULL;
 	}
-	index->next = NULL;
-
+	
 	return head;
 }
 
-void insert_node(Node *head)
+Node *insert_node(Node *head)
 {
 	Node *new_node;
 	Node *node = head;
@@ -61,6 +61,7 @@ void insert_node(Node *head)
 		new_node->next = head;
 		head->last = new_node;
 		new_node->last = NULL;
+		head = new_node;
 	} else {
 		i = 1;
 		node = head;
@@ -74,9 +75,10 @@ void insert_node(Node *head)
 		if(new_node->next!=NULL)
 			new_node->next->last = new_node;
 	}
+	return head;
 }
 
-void delete_node(Node* head)
+Node *delete_node(Node* head)
 {
 	Node *node = head;
 	int n, i = 1,node_num = 1;
@@ -84,7 +86,6 @@ void delete_node(Node* head)
 	scanf("%d", &n);
 
 	while(node->next!=NULL){
-		printf("2323");
 		node = node->next;
 		node_num++;
 	}
@@ -92,29 +93,22 @@ void delete_node(Node* head)
 		printf("Error...no exist!\n");
 	} else {
 		node = head;
-		printf("1");
 		while(node!=NULL && (i<n)){
 			i++;
-			printf("2");
 			node = node->next;
 		}
-		printf("3");
 		if(n==1){
+			head = head->next;
 			node->next->last = NULL;
-			printf("a");
 		} else if(node_num==n){
 			node->last->next = NULL;
-			printf("b");
 		} else {
 			node->last->next = node->next;
 			node->next->last = node->last;
-			printf("c");
 		}
-		printf("4");
 		free(node);
-		printf("5");
 	}
-
+	return head;
 }
 
 void print_all_node(Node *head)
@@ -130,9 +124,8 @@ int main(int argc, char **argv)
 {
 	Node *head;
 	head = CreatDoubleList();
-	insert_node(head);
-	delete_node(head);
+	head = insert_node(head);
+	head = delete_node(head);
 	print_all_node(head);
-	while(1);
 	return 0;
 }
